@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Prescription Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 40px;
+    }
+    .form-container {
+      background: #fff;
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007a75;
+    }
+    .upload-box {
+      border: 2px dashed #007a75;
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .upload-box:hover { background: #f0fdfa; }
+    .upload-box img {
+      max-width: 120px;
+      margin-top: 15px;
+      display: none;
+    }
+    input[type="file"] { display: none; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    label { margin-bottom: 6px; font-weight: bold; font-size: 14px; color: #333; }
+    input, select, textarea {
+      padding: 10px; border: 1px solid #ccc;
+      border-radius: 6px; font-size: 14px;
+    }
+    textarea { resize: vertical; }
+    .radio-group {
+      display: flex; align-items: center; gap: 15px; margin-top: 5px;
+    }
+    .submit-btn {
+      width: 100%; padding: 14px; border: none;
+      border-radius: 6px; background: #00c4b4;
+      color: #fff; font-size: 16px; font-weight: bold;
+      cursor: pointer; margin-top: 20px; transition: background 0.3s ease;
+    }
+    .submit-btn:hover { background: #009e91; }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Upload Your Prescription</h2>
+
+     
+    <!-- Form Fields -->
+    
+    <form id="prescriptionForm">
+  <div class="form-grid">
+    <!-- Upload Prescription inside grid -->
+    <div class="form-group" style="grid-column: span 2;">
+      <label for="file-upload" class="upload-box" id="drop-area">
+        <p>📷 Drag & Drop or Click to Upload Prescription</p>
+        <input type="file" id="file-upload" accept="image/*">
+        <img id="preview" alt="Preview">
+      </label>
+    </div>
+
+        <!-- Name -->
+    <div class="form-group">
+        <label>Your Name*</label>
+        <input type="text" placeholder="Enter your name" required>
+     </div>
+
+        <div class="form-group">
+          <label>Email Address*</label>
+          <input type="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number*</label>
+          <input type="tel" placeholder="Enter phone number" required>
+        </div>
+        <div class="form-group">
+          <label>Address*</label>
+          <input type="text" placeholder="Enter address" required>
+        </div>
+        <div class="form-group">
+          <label>City*</label>
+          <input type="text" placeholder="Enter city" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Payment Method*</label>
+          <select required>
+            <option value="">Select Payment</option>
+            <option>Cash on Delivery</option>
+            <option>Card Payment</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration*</label>
+          <select required>
+            <option value="">Select Duration</option>
+            <option>1 Month</option>
+            <option>3 Months</option>
+            <option>6 Months</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Frequency*</label>
+          <div class="radio-group">
+            <label><input type="radio" name="frequency"> One Time</label>
+            <label><input type="radio" name="frequency"> On Going</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Gender*</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender"> Male</label>
+            <label><input type="radio" name="gender"> Female</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Medicine Allergies?*</label>
+          <div class="radio-group">
+            <label><input type="radio" name="allergy"> Yes</label>
+            <label><input type="radio" name="allergy"> No</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Special Notes</label>
+        <textarea rows="4" placeholder="Enter additional notes..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Submit Prescription</button>
+    </form>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("file-upload");
+    const preview = document.getElementById("preview");
+    const dropArea = document.getElementById("drop-area");
+
+    // Show preview when image is selected
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Drag & drop support
+    dropArea.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropArea.style.background = "#e0f7f6";
+    });
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.background = "transparent";
+    });
+    dropArea.addEventListener("drop", e => {
+      e.preventDefault();
+      dropArea.style.background = "transparent";
+      fileInput.files = e.dataTransfer.files;
+      const event = new Event("change");
+      fileInput.dispatchEvent(event);
+    });
+
+    // Redirect to order status page on submit
+    document.getElementById("prescriptionForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      window.location.href = "order-status.html"; // go to status page
+    });
+  </script>
+</body>
+</html>
+
+

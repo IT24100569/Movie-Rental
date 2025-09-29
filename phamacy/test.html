@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Status</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 40px;
+    }
+    .status-container {
+      background: #fff;
+      max-width: 700px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #007a75;
+      margin-bottom: 20px;
+    }
+    .status-step {
+      margin: 20px 0;
+      padding: 15px;
+      border-left: 5px solid #00c4b4;
+      background: #f0fdfa;
+      border-radius: 6px;
+      text-align: left;
+    }
+    .done { border-left-color: #28a745; background: #e8f9ee; }
+    .pending { border-left-color: #ffc107; background: #fff9e6; }
+    .status-step h3 { margin: 0 0 5px; }
+    .btn-back {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      background: #00c4b4;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn-back:hover { background: #009e91; }
+  </style>
+</head>
+<body>
+  <div class="status-container">
+    <h2>📦 Your Order Status</h2>
+
+    <div class="status-step done">
+      <h3>✔ Prescription Uploaded</h3>
+      <p>Your prescription has been successfully uploaded.</p>
+    </div>
+
+    <div class="status-step done">
+      <h3>✔ Pharmacist Review</h3>
+      <p>Our pharmacist has approved your order.</p>
+    </div>
+
+    <div class="status-step pending">
+      <h3>⏳ Out for Delivery</h3>
+      <p>Your medicines are on the way.</p>
+    </div>
+
+    <div class="status-step">
+      <h3>🚚 Delivered</h3>
+      <p>Pending delivery confirmation.</p>
+    </div>
+
+    <button class="btn-back" onclick="window.location.href='customer-form.html'">← Back to Form</button>
+  </div>
+</body>
+</html>
