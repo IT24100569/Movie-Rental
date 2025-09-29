@@ -1,0 +1,109 @@
+### Import Libraries
+# Data handling
+import pandas as pd
+
+# Visualization
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
+
+
+
+# Load dataset 
+df = pd.read_csv("data/train.csv")
+
+# Check shape and first 5 rows
+print("Dataset shape:", df.shape)
+df.head()
+
+
+
+### Step 2: Check Missing Values (Before Handling)
+
+# Count missing values
+missing_before = df.isnull().sum()
+print("Missing values BEFORE cleaning:\n", missing_before)
+
+# Percentage
+missing_percent_before = (df.isnull().sum() / len(df)) * 100
+print("\nPercentage of missing values BEFORE cleaning:\n", missing_percent_before)
+
+
+
+### Step 3: Visualize Missing Values (Before Handling)
+# Bar chart
+missing_before.plot(kind="bar", figsize=(12,5), color="teal")
+plt.title("Missing Values per Column (Before Cleaning)")
+plt.xlabel("Columns")
+plt.ylabel("Count of Missing Values")
+plt.show()
+
+# Heatmap
+sns.heatmap(df.isnull(), cbar=False, cmap="viridis")
+plt.title("Missing Value Heatmap (Before Cleaning)")
+plt.show()
+
+
+
+
+
+### Step 4: Handle Missing Values
+
+# Numeric features → fill with median
+df['popularity'] = df['popularity'].fillna(df['popularity'].median())
+df['duration_ms'] = df['duration_ms'].fillna(df['duration_ms'].median())
+df['tempo'] = df['tempo'].fillna(df['tempo'].median())
+df['loudness'] = df['loudness'].fillna(df['loudness'].median())
+
+# Categorical/discrete features → fill with mode
+df['key'] = df['key'].fillna(df['key'].mode()[0])
+df['mode'] = df['mode'].fillna(df['mode'].mode()[0])
+df['time_signature'] = df['time_signature'].fillna(df['time_signature'].mode()[0])
+
+# Drop rows where target or ID/text columns are missing
+df = df.dropna(subset=['track_genre', 'track_id', 'track_name', 'album_name', 'artists'])
+
+
+
+
+### Step 5: Verify Cleaning (After Handling)
+missing_after = df.isnull().sum()
+print("Missing values AFTER cleaning:\n", missing_after)
+
+missing_percent_after = (df.isnull().sum() / len(df)) * 100
+print("\nPercentage of missing values AFTER cleaning:\n", missing_percent_after)
+
+
+
+
+
+
+
+
+
+### Step 6: Visualize Missing Values (After Handling)
+# Bar chart
+missing_after.plot(kind="bar", figsize=(12,5), color="green")
+plt.title("Missing Values per Column (After Cleaning)")
+plt.xlabel("Columns")
+plt.ylabel("Count of Missing Values")
+plt.show()
+
+# Heatmap
+sns.heatmap(df.isnull(), cbar=False, cmap="Greens")
+plt.title("Missing Value Heatmap (After Cleaning)")
+plt.show()
+
+
+
+
+
+
+
+### Step 7: Save Cleaned Dataset
+df.to_csv("data/spotify_tracks_clean.csv", index=False)
+print("Cleaned dataset saved as data/spotify_tracks_clean.csv")
+
+
